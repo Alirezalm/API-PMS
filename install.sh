@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 echo -e "Done!\n\n"
 
-echo -e "executing the main program ...  \n\n"
+echo -e "Executing the main program ...  \n\n"
 
 echo -e "---------------------------\n\n"
 

@@ -14,7 +14,11 @@ PATH = os.path.join(ROOT, DIR)
 
 os.makedirs(PATH, exist_ok=True)
 
-AUTH_KEY = 'Basic MTU0NzIzOTY2MzowYzdsNjQxaHAy'
+click.clear()
+
+click.echo(click.style("For security reasons, an AUTHORIZATION TOKEN is necessary to run this script\n", fg='yellow'))
+AUTH_KEY = click.prompt(click.style('AUTHORIZATION KEY', fg='green'), type=str)
+
 
 URL_DICT = {
     'price-region': '/external/v1/parr/price-regions',
