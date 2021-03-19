@@ -92,10 +92,10 @@ class SeaZoneRegion(object):
 
     def get_listings(self):
 
-        max_listing = click.prompt("Enter the number of max listings: \n", type = int)
+        max_listing = click.prompt("Enter the number of max listings: ", type = int)
         url = self._domain + URL_DICT['listings'] + f'?limit={max_listing}&status=active'
         try:
-            click.echo('Fetching all listings...\n')
+            click.echo('\nFetching all listings...\n')
             data = requests.get(url, headers=self._headers)
 
         except:
