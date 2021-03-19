@@ -2,13 +2,25 @@
 
 echo -e "Seazone Challenge \nAuthor: Alireza Olama\nEmail: alireza.lm69@gmail.com\n\n\n"
 
-echo -e " Creating virtual environment ... \n\n\n"
 
-python3 -m venv env
 
-echo -e "Activating ... \n\n\n"
+DIR="./env"
 
-source env/bin/activate
+
+if [ -d $DIR ]; then
+
+    echo -e "Activating ... \n\n\n"
+
+    source ./env/bin/activate
+else
+
+    echo -e " Creating virtual environment ... \n\n\n"
+    python3 -m venv env
+    echo -e "Activating ... \n\n\n"
+
+    source ./env/bin/activate
+fi
+
 
 echo -e "Done!\n\n\n"
 

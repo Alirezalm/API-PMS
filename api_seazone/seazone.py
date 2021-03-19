@@ -135,7 +135,7 @@ class SeaZoneRegion(object):
                     csv_writer.writerow(row)
         click.echo(click.style('Done!\n', fg='green'))
         click.echo(f'{file_name} is generated in {PATH}. \n')
-        df = pd.read_csv('../listing_sell_price.csv')
+        df = pd.read_csv(f'{PATH}/{file_name}')
         ans = click.prompt("A dataframe created. Show the head of the dataframe? [y,n] ", type=str)
         if ans.lower() == 'y':
             print(df.head())
