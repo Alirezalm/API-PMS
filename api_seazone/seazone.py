@@ -92,7 +92,7 @@ class SeaZoneRegion(object):
 
     def get_listings(self):
 
-        max_listing = click.prompt("Enter the number of max listings: ", type = int)
+        max_listing = click.prompt("Enter the number of max listings: ", type=int)
         url = self._domain + URL_DICT['listings'] + f'?limit={max_listing}&status=active'
         try:
             click.echo('\nFetching all listings...\n')
@@ -125,8 +125,9 @@ class SeaZoneRegion(object):
             click.echo('Fetching listing sell price ... \n')
 
             for index, listing in enumerate(self.listings):
-
-                click.echo(f" {index + 1} of {len(self.listings)}" +  click.style(' ok!\n', fg='green'))
+                click.echo(
+                    f" {index + 1} out of {len(self.listings)} processed. status: " + click.style(' success!\n',
+                                                                                                  fg='green'))
                 listing_id = listing['_id']
                 data = self._get_listing_sell_price_request(listing_id)
                 self.listing_sell_price.append(data)
@@ -141,23 +142,32 @@ class SeaZoneRegion(object):
         click.echo(click.style('Done!\n', fg='green'))
         click.echo(f'{file_name} is generated in {PATH}. \n')
         df = pd.read_csv(f'{PATH}/{file_name}')
-        ans = click.prompt("A dataframe created. Show the head of the dataframe? [y/n] ", type=str)
+        ans = click.prompt("A dataframe created. Show the head of the dataframe? [y/n]", type=str)
+
         if ans.lower() == 'y':
-            print(df.head())
+            num = click.prompt("\nHow many rows?", type=int)
+            print(df.head(num))
 
     def _get_listing_sell_price_request(self, listing_id):
 
         url = self._domain + URL_DICT['listing-sell-price'] + f"?listingId={listing_id}&from={start_date}&to={end_date}"
-        data = requests.get(url, headers=self._headers)
-        return self._create_json(data.text)
+        try:
+            data = requests.get(url, headers=self._headers)
+
+            return self._create_json(data.text)
+        except:
+            raise ValueError("unsuccessful fetch\n")
 
     def _sell_price_rules_request(self, region_id):
 
         url = self._domain + URL_DICT[
             'sell-price-rules'] + '?_idregion=' + region_id + f'&from={start_date}&to={end_date}&status=active'
 
-        response = requests.get(url, headers=self._headers)
-        return self._create_json(response.text)
+        try:
+            response = requests.get(url, headers=self._headers)
+            return self._create_json(response.text)
+        except:
+            raise ValueError("unsuccessful fetch\n")
 
     def _create_json(self, data):
         return json.loads(data)
