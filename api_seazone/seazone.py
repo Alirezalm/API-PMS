@@ -92,7 +92,8 @@ class SeaZoneRegion(object):
 
     def get_listings(self):
 
-        url = self._domain + URL_DICT['listings'] + '?limit=50&status=active'
+        max_listing = click.prompt("Enter the number of max listings: \n", type = int)
+        url = self._domain + URL_DICT['listings'] + f'?limit={max_listing}&status=active'
         try:
             click.echo('Fetching all listings...\n')
             data = requests.get(url, headers=self._headers)
@@ -115,13 +116,17 @@ class SeaZoneRegion(object):
             click.echo(f'{file_name} is generated in {PATH}.\n')
 
     def get_listing_sell_price(self):
+        click.clear()
         file_name = 'listing_sell_price.csv'
         with open(f'{PATH}/{file_name}', 'w') as csvFile:
             csv_writer = csv.writer(csvFile, delimiter=',')
             row = ['city', 'region', 'from', 'to', 'price']
             csv_writer.writerow(row)
             click.echo('Fetching listing sell price ... \n')
-            for listing in self.listings:
+
+            for index, listing in enumerate(self.listings):
+
+                click.echo(f" {index + 1} of {len(self.listings)}" +  click.style(' ok!\n', fg='green'))
                 listing_id = listing['_id']
                 data = self._get_listing_sell_price_request(listing_id)
                 self.listing_sell_price.append(data)
@@ -136,7 +141,7 @@ class SeaZoneRegion(object):
         click.echo(click.style('Done!\n', fg='green'))
         click.echo(f'{file_name} is generated in {PATH}. \n')
         df = pd.read_csv(f'{PATH}/{file_name}')
-        ans = click.prompt("A dataframe created. Show the head of the dataframe? [y,n] ", type=str)
+        ans = click.prompt("A dataframe created. Show the head of the dataframe? [y/n] ", type=str)
         if ans.lower() == 'y':
             print(df.head())
 

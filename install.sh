@@ -32,6 +32,8 @@ echo -e "Done!\n\n\n"
 
 echo -e "executing the main program ...  \n\n\n"
 
+echo -e "---------------------------\n\n\n"
+
 python main.py
 
 echo -e "Done!"
