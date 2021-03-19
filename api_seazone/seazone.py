@@ -141,9 +141,8 @@ class SeaZoneRegion(object):
             print(df.head())
 
     def _get_listing_sell_price_request(self, listing_id):
-        start = '2021-06-01'
-        end = '2021-09-30'
-        url = self._domain + URL_DICT['listing-sell-price'] + f"?listingId={listing_id}&from={start}&to={end}"
+
+        url = self._domain + URL_DICT['listing-sell-price'] + f"?listingId={listing_id}&from={start_date}&to={end_date}"
         data = requests.get(url, headers=self._headers)
         return self._create_json(data.text)
 
